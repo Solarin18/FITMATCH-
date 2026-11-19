@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FITMATCH – Find Your Fit. Own Your Style.</title>
+<style>
+:root{--bg:#000;--panel:#161616;--panel2:#202020;--tx:#fff;--mut:#9a9a9a;--ac:#9FCA62;--ln:#2e2e2e;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+*{box-sizing:inherit}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 "Avenir Next","Segoe UI",system-ui,sans-serif}
+h1,h2,h3{font-family:"Didot","Bodoni 72",Georgia,serif;font-weight:500;letter-spacing:-.01em;margin:0 0 .4em}
+h1{font-size:clamp(2.2rem,8vw,4.4rem);line-height:1.05}h2{font-size:1.8rem}h3{font-size:1.15rem}
+a{color:inherit}
+nav{display:flex;gap:4px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--ln);position:sticky;top:env(safe-area-inset-top,0px);background:rgba(0,0,0,.92);z-index:5;overflow-x:auto}
+nav b{font:600 1.1rem Georgia,serif;letter-spacing:.14em;margin-right:12px;color:var(--ac)}
+nav a{white-space:nowrap;text-decoration:none;padding:7px 12px;border-radius:99px;color:var(--mut);font-size:.9rem}
+nav a.on,nav a:hover,nav a:focus-visible{background:var(--panel2);color:#fff;outline:none}
+main{max-width:980px;margin:0 auto;padding:20px 16px 60px}
+.view{display:none}.view.on{display:block}
+.hero{padding:40px 0 28px}.hero p{color:var(--mut);max-width:46ch;font-size:1.05rem}
+.btn{display:inline-block;background:var(--ac);color:#0a0a0a;border:0;border-radius:99px;padding:13px 26px;font:600 1rem inherit;font-family:inherit;cursor:pointer;text-decoration:none;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}.btn.alt{background:transparent;color:#fff;border:1px solid #555}
+.btn:focus-visible,.chip:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.card{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--ln);border-radius:16px;padding:16px;box-shadow:0 14px 30px -18px #000}
+.card.fl{transform:perspective(700px) rotateX(2deg);transition:transform .25s,border-color .25s;cursor:pointer}
+.card.fl:hover{transform:perspective(700px) rotateX(0) translateY(-4px);border-color:var(--ac)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 18px}
+.chip{background:var(--panel);color:#ddd;border:1px solid var(--ln);border-radius:99px;padding:8px 15px;cursor:pointer;font:inherit;font-size:.92rem}
+.chip.sel{background:var(--ac);color:#0a0a0a;border-color:var(--ac)}
+.sw{display:inline-block;width:18px;height:18px;border-radius:50%;vertical-align:-3px;margin-right:6px;border:1px solid #555}
+label.q{display:block;margin-top:18px;font-weight:600}.opt{color:var(--mut);font-weight:400;font-size:.85rem}
+select,input[type=text]{background:var(--panel);color:#fff;border:1px solid var(--ln);border-radius:10px;padding:10px;font:inherit;width:100%;max-width:340px}
+.steps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:12px 0 30px}
+.out{margin-top:22px}.pieces{list-style:none;padding:0;margin:10px 0}
+.pieces li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--ln)}
+.pieces span{color:var(--mut);font-size:.9rem;text-align:right}
+.note{border-left:3px solid var(--ac);background:var(--panel);padding:10px 14px;border-radius:0 10px 10px 0;color:#cfcfcf;font-size:.9rem;margin:12px 0}
+.prompt{font:.8rem/1.5 ui-monospace,Menlo,monospace;background:#0b0b0b;border:1px dashed #444;border-radius:10px;padding:10px;color:#bbb;word-break:break-word}
+.badge{display:inline-block;font-size:.75rem;border:1px solid #555;border-radius:99px;padding:2px 10px;color:var(--mut)}
+.pal{display:flex;height:54px;border-radius:12px;overflow:hidden;margin:10px 0}.pal div{flex:1}
+table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:9px 6px;border-bottom:1px solid var(--ln);vertical-align:top}
+footer{border-top:1px solid var(--ln);padding:22px 16px;color:var(--mut);text-align:center;font-size:.85rem}
+.empty{color:var(--mut);padding:30px;text-align:center;border:1px dashed var(--ln);border-radius:14px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<nav aria-label="Main"><b>FITMATCH</b><a href="#home">Home</a><a href="#style">Style Me</a><a href="#builder">Builder</a><a href="#colour">Colour Match</a><a href="#saved">Saved</a><a href="#status">Status</a></nav>
+<main>
+
+<section id="home" class="view">
+ <div class="hero"><h1>Tell Us the Occasion. We'll Find Your Fit.</h1>
+ <p>Find Your Fit. Own Your Style. Pick an occasion, your style and colours, and get complete outfits with the reasoning behind them.</p>
+ <a class="btn" href="#style">Start Styling</a></div>
+ <h2>Shop by occasion</h2>
+ <div class="grid" id="occGrid"></div>
+ <h2 style="margin-top:34px">How it works</h2>
+ <div class="steps">
+  <div class="card"><h3>Tell us the occasion</h3><p>Wedding, Owambe, office, a dinner date. Add your style, budget tier and colours.</p></div>
+  <div class="card"><h3>Get complete looks</h3><p>Three outfits with every layer, why it works, why the colours match, and where to wear it.</p></div>
+  <div class="card"><h3>Preview and save</h3><p>Each look produces an image prompt built from its exact pieces. Save your favourites.</p></div>
+ </div>
+</section>
+
+<section id="style" class="view">
+ <h2>Style Me</h2>
+ <label class="q">Occasion</label><div class="chips" data-k="occ" id="cOcc"></div>
+ <label class="q">Preferred style</label><div class="chips" data-k="sty" id="cSty"></div>
+ <label class="q">Budget tier</label><div class="chips" data-k="bud" id="cBud"></div>
+ <label class="q">Colours you like <span class="opt">(optional, pick up to 3)</span></label><div class="chips" data-k="col" data-multi id="cCol"></div>
+ <label class="q">Fit <span class="opt">(optional)</span></label><div class="chips" data-k="fit" id="cFit"></div>
+ <label class="q">Weather <span class="opt">(optional; live weather needs a weather service)</span></label><div class="chips" data-k="wx" id="cWx"></div>
+ <button class="btn" id="go">Style me</button> <button class="btn alt" id="skip">Reset</button>
+ <div id="results" class="out"></div>
+</section>
+
+<section id="builder" class="view">
+ <h2>Outfit Builder</h2><p style="color:var(--mut)">Mix pieces and see the look and image prompt update.</p>
+ <div id="bform"></div><div id="bout" class="card out"></div>
+</section>
+
+<section id="colour" class="view">
+ <h2>Colour Match</h2><p style="color:var(--mut)">Pick a base colour to see palettes that work and why.</p>
+ <div class="chips" id="cm"></div><div id="cmOut"></div>
+</section>
+
+<section id="saved" class="view"><h2>Saved outfits</h2><div id="savedList"></div></section>
+
+<section id="status" class="view">
+ <h2>What is connected</h2>
+ <p style="color:var(--mut)">This is the working front end of FITMATCH. Items below need real services before they can work. Nothing here is faked.</p>
+ <table><tr><th>Feature</th><th>State</th></tr>
+ <tr><td>Quiz, outfit engine, colour match, builder</td><td>Working, rule-based and runs in your browser</td></tr>
+ <tr><td>Saved outfits</td><td>Working, stored in this browser only (no account yet)</td></tr>
+ <tr><td>AI model images and virtual try-on</td><td>Needs an image-generation and try-on API, called from your server. Prompts are already built per outfit.</td></tr>
+ <tr><td>Wardrobe upload and clothing recognition</td><td>Needs secure storage and a vision API</td></tr>
+ <tr><td>Products, prices, stock, Shop the Look</td><td>Needs your real catalogue. No placeholder products or prices are shown.</td></tr>
+ <tr><td>Accounts, orders, admin, analytics</td><td>Needs a backend and database with authentication</td></tr>
+ <tr><td>Paystack or Flutterwave checkout</td><td>Needs your merchant keys, kept on the server</td></tr>
+ <tr><td>Live weather</td><td>Needs a weather API. You choose conditions manually for now.</td></tr>
+ <tr><td>WhatsApp stylist booking</td><td>Needs your business number</td></tr></table>
+</section>
+</main>
+<footer>FITMATCH. AI previews, when connected, are approximations and not product photographs.</footer>
+
+<script>
+var $=function(s){return document.querySelector(s)};
+var OCC=["Wedding","Birthday","Dinner date","Church","Office","Owambe","Graduation","Vacation","Party","Photoshoot"];
+var STY=["Streetwear","Minimalist","Corporate","Classic","Traditional","Sporty","Casual","Elegant"];
+var BUD=["Affordable","Mid-range","Premium"],FIT=["Relaxed","Regular","Slim"],WX=["Hot","Rainy","Cool","Mild"];
+var COL={Black:"#111",White:"#f4f4f4",Grey:"#808080",Navy:"#1b2a49",Olive:"#6b7040",Beige:"#d6c2a1",Burgundy:"#6d1f2f",Lime:"#9FCA62",Brown:"#6b4a2f",Cream:"#efe6d2"};
+var S={occ:"Dinner date",sty:"Minimalist",bud:"Mid-range",col:[],fit:"",wx:""};
+
+/* outfit knowledge: per style, pieces by role. Occasion adds a formality tweak. */
+var K={
+Streetwear:{top:["oversized graphic tee","boxy hoodie","oversized shirt"],bottom:["cargo trousers","wide-leg jeans","track pants"],shoes:["chunky sneakers","white sneakers","high-top sneakers"],layer:["bomber jacket","varsity jacket","denim jacket"],bag:["crossbody bag","small backpack"],acc:["cap","chain necklace"]},
+Minimalist:{top:["fitted knit top","crisp white shirt","plain tee"],bottom:["straight trousers","tailored shorts","midi skirt"],shoes:["clean white sneakers","leather loafers","slide sandals"],layer:["longline blazer","light overcoat"],bag:["structured tote","small leather bag"],acc:["slim watch","simple stud earrings"]},
+Corporate:{top:["poplin shirt","silk blouse","fine-gauge knit"],bottom:["tailored trousers","pencil skirt","pleated trousers"],shoes:["oxford shoes","block-heel pumps","loafers"],layer:["tailored blazer","structured vest"],bag:["laptop tote","structured briefcase"],acc:["classic watch","leather belt"]},
+Classic:{top:["button-down shirt","striped tee","cashmere-style sweater"],bottom:["chinos","dark straight jeans","A-line skirt"],shoes:["loafers","leather derby shoes","ballet flats"],layer:["trench coat","navy blazer"],bag:["leather satchel","top-handle bag"],acc:["leather strap watch","silk scarf"]},
+Traditional:{top:["well-tailored agbada top","embroidered senator top","ankara-print blouse"],bottom:["matching traditional trousers","wrapper skirt","ankara skirt"],shoes:["leather slippers","wedge sandals","block-heel sandals"],layer:["flowing overcoat in matching fabric","shawl or wrapper wrap"],bag:["clutch","beaded bag"],acc:["cap or gele","statement beads"]},
+Sporty:{top:["moisture-wicking tee","zip-up track top","tank top"],bottom:["jogger pants","running shorts","bike shorts"],shoes:["running shoes","training sneakers"],layer:["windbreaker","light zip hoodie"],bag:["gym duffel","sling bag"],acc:["sport watch","sweatband or cap"]},
+Casual:{top:["relaxed tee","linen shirt","polo shirt"],bottom:["straight jeans","chino shorts","denim skirt"],shoes:["canvas sneakers","slides","simple sandals"],layer:["denim jacket","lightweight cardigan"],bag:["canvas tote","crossbody bag"],acc:["sunglasses","casual watch"]},
+Elegant:{top:["satin blouse","fitted bodysuit","tailored shirt"],bottom:["wide-leg silk trousers","satin midi skirt","draped dress"],shoes:["strappy heels","pointed pumps","polished loafers"],layer:["tailored blazer","embellished jacket"],bag:["envelope clutch","mini top-handle bag"],acc:["statement earrings","gold-tone watch"]}};
+var TIER={Affordable:"everyday fabrics like cotton and denim","Mid-range":"better-finished fabrics and cleaner tailoring","Premium":"premium fabrics such as wool, silk or fine leather"};
+var FORMAL={Wedding:3,Church:3,Office:3,Graduation:3,"Dinner date":2,Owambe:3,Party:2,Birthday:1,Vacation:0,Photoshoot:2};
+var OWHERE={Wedding:"a wedding ceremony or reception",Birthday:"a birthday gathering","Dinner date":"an evening restaurant date",Church:"Sunday service",Office:"the workplace and client meetings",Owambe:"an Owambe, where bold colour and fabric are welcome",Graduation:"a graduation ceremony and photos",Vacation:"travel days and daytime exploring",Party:"a party or night out",Photoshoot:"a shoot where texture and colour read well on camera"};
+
+/* colour theory */
+var CM={
+Black:{pairs:["White","Lime","Beige"],why:"Black is the strongest neutral. High contrast with white looks sharp, and a small amount of a bright accent such as lime draws the eye without clutter."},
+White:{pairs:["Navy","Olive","Burgundy"],why:"White lifts deeper colours and makes them look richer. Navy and white is a classic, clean contrast."},
+Grey:{pairs:["Black","Burgundy","Lime"],why:"Grey is calm and flexible. It lets one warm or bright colour lead without competing."},
+Navy:{pairs:["White","Beige","Burgundy"],why:"Navy behaves like a softer black. Warm neutrals like beige balance its coolness."},
+Olive:{pairs:["Cream","Black","Brown"],why:"Olive is an earthy green. It sits well with other natural tones and cream keeps it light."},
+Beige:{pairs:["Navy","Olive","Black"],why:"Beige is a warm neutral. Dark cool colours make it look intentional and polished."},
+Burgundy:{pairs:["Grey","Cream","Navy"],why:"Burgundy is deep and rich. Soft neutrals give it room, and navy adds quiet depth."},
+Lime:{pairs:["Black","Grey","White"],why:"Lime is bold, so use it in small amounts against dark or neutral colours."},
+Brown:{pairs:["Cream","Olive","Navy"],why:"Brown is a warm base. Cream brightens it and olive keeps the palette natural."},
+Cream:{pairs:["Brown","Olive","Burgundy"],why:"Cream is softer than white. It suits earthy and deep tones and avoids a harsh contrast."}};
+
+function pick(a,i){return a[i%a.length]}
+function chipRow(el,list,key,multi){
+ el.innerHTML="";
+ list.forEach(function(v){var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=v;
+  if(key==="col"){var s=document.createElement("span");s.className="sw";s.style.background=COL[v];b.prepend(s)}
+  b.onclick=function(){
+   if(multi){var i=S.col.indexOf(v);if(i>-1)S.col.splice(i,1);else if(S.col.length<3)S.col.push(v)}
+   else S[key]=(S[key]===v&&key!=="occ"&&key!=="sty"&&key!=="bud")?"":v;
+   paint()};
+  b.dataset.v=v;el.appendChild(b)})}
+function paint(){["cOcc","cSty","cBud","cCol","cFit","cWx"].forEach(function(id){
+ var key=$("#"+id).dataset.k;$("#"+id).querySelectorAll(".chip").forEach(function(b){
+  var on=key==="col"?S.col.indexOf(b.dataset.v)>-1:S[key]===b.dataset.v;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on)})})}
+
+function build(i){
+ var k=K[S.sty],f=FORMAL[S.occ]||1,rain=S.wx==="Rainy",hot=S.wx==="Hot",cool=S.wx==="Cool";
+ var cols=S.col.length?S.col.slice():["Black","Cream","Olive"];
+ var base=pick(cols,i),acc=pick(cols,i+1);
+ var o={top:pick(k.top,i),bottom:pick(k.bottom,i+f),shoes:pick(k.shoes,i),layer:pick(k.layer,i),bag:pick(k.bag,i),acc:pick(k.acc,i),
+  tc:base,bc:pick(["Black","Navy","Beige","Grey","Brown"].filter(function(c){return c!==base}),i),sc:acc};
+ if(hot&&!/Traditional/.test(S.sty)){o.layer="none, keep it light";}
+ if(rain){o.shoes=o.shoes.replace(/sandals|slides|ballet flats/,"water-resistant boots");o.layer="water-resistant jacket"}
+ if(cool&&o.layer.indexOf("none")===0)o.layer=pick(k.layer,i);
+ o.acc2=(S.occ==="Wedding"||S.occ==="Owambe"||S.occ==="Party"||S.occ==="Dinner date")?"statement jewellery in a gold or silver tone":"minimal jewellery";
+ o.makeup=(f>=2)?"soft natural base with a defined lip or eye that picks up "+o.sc.toLowerCase():"";
+ o.fit=S.fit||"Regular";
+ return o}
+function why(o){
+ var p=CM[o.tc]||{why:""};var pal=CM[o.tc]?CM[o.tc].pairs:[];
+ return {
+  works:"A "+S.sty.toLowerCase()+" look for "+S.occ.toLowerCase()+": the "+o.top+" and "+o.bottom+" set the shape, and "+o.shoes+" finish it at the right level of dressiness. Using "+TIER[S.bud]+" keeps it in your "+S.bud.toLowerCase()+" range.",
+  colour:o.tc+" leads, "+o.bc+" grounds it, and "+o.sc+" appears as the accent. "+p.why,
+  where:"Wear it to "+OWHERE[S.occ]+".",
+  alt:"Swap the "+o.top+" for a "+pick(K[S.sty].top,3)+", or the "+o.bottom+" for "+pick(K[S.sty].bottom,4)+". "+(pal.length?"Other colours that pair with "+o.tc+": "+pal.join(", ")+".":"")};}
+function prompt(o){
+ return "Full-body fashion photograph of a model wearing a "+o.tc.toLowerCase()+" "+o.top+", "+o.bc.toLowerCase()+" "+o.bottom+", and "+o.shoes+
+ (o.layer.indexOf("none")===0?"":", with a "+o.layer)+", carrying a "+o.bag+", styled with "+o.acc+" and "+o.acc2+
+ ". "+S.sty+" style for "+S.occ.toLowerCase()+", "+o.fit.toLowerCase()+" fit, clothing and footwear fully visible, studio-quality lighting, background suited to "+S.occ.toLowerCase()+".";}
+
+function card(o,idx,idxLabel){
+ var w=why(o),h='<div class="card out"><span class="badge">AI preview not connected</span><h3>'+idxLabel+": "+S.occ+" in "+o.tc+"</h3>"+
+ '<ul class="pieces">'+[["Top",o.tc+" "+o.top],["Bottom",o.bc+" "+o.bottom],["Shoes",o.shoes],["Layer",o.layer],["Bag",o.bag],["Accessories",o.acc+", "+o.acc2]].concat(o.makeup?[["Makeup",o.makeup]]:[]).map(function(r){return"<li>"+r[0]+"<span>"+r[1]+"</span></li>"}).join("")+"</ul>"+
+ '<p><b>Why it works.</b> '+w.works+'</p><p><b>Colours.</b> '+w.colour+'</p><p><b>When and where.</b> '+w.where+'</p><p><b>Alternatives.</b> '+w.alt+'</p>'+
+ '<div class="note">Estimated cost and product links appear once your real catalogue is connected. No prices are invented.</div>'+
+ '<p style="font-size:.85rem;color:var(--mut)">Image prompt built from this exact outfit:</p><div class="prompt">'+prompt(o)+'</div><p><button class="btn alt" data-gen="'+idx+'">Generate preview</button> <button class="btn" data-save="'+idx+'">Save outfit</button></p><div class="gmsg" aria-live="polite"></div></div>';
+ return h}
+
+var CUR=[];
+$("#go").onclick=function(){
+ CUR=[0,1,2].map(function(i){return build(i+Math.floor(Math.random()*3))});
+ $("#results").innerHTML=CUR.map(function(o,i){return card(o,i,"Option "+(i+1))}).join("");
+ $("#results").scrollIntoView({behavior:"smooth"})};
+$("#skip").onclick=function(){S={occ:"Dinner date",sty:"Minimalist",bud:"Mid-range",col:[],fit:"",wx:""};paint();$("#results").innerHTML=""};
+document.addEventListener("click",function(e){
+ var g=e.target.dataset&&e.target.dataset.gen,s=e.target.dataset&&e.target.dataset.save;
+ if(g!==undefined&&g!==""){var m=e.target.closest(".card").querySelector(".gmsg");
+  m.innerHTML='<div class="note">Image generation is not connected yet. Connect an image API on your server, then this button sends the prompt above. Failed generations will show a retry button.</div>'}
+ if(s!==undefined&&s!==""){var o=(e.target.closest("#bout"))?BO:CUR[+s];save(o,e.target)}
+ var occ=e.target.closest("[data-occ]");if(occ){S.occ=occ.dataset.occ;paint();location.hash="#style"}});
+
+function load(){try{return JSON.parse(localStorage.getItem("fm_saved")||"[]")}catch(x){return []}}
+function save(o,btn){var list=load();list.unshift({o:o,sty:S.sty,occ:S.occ,bud:S.bud,fit:o.fit,t:Date.now()});
+ try{localStorage.setItem("fm_saved",JSON.stringify(list.slice(0,30)));btn.textContent="Saved"}catch(x){btn.textContent="Could not save in this browser"}}
+function renderSaved(){var l=load(),el=$("#savedList");
+ if(!l.length){el.innerHTML='<div class="empty">No saved outfits yet. Style a look and tap Save outfit.</div>';return}
+ el.innerHTML=l.map(function(r,i){var o=r.o;return'<div class="card out"><h3>'+r.occ+", "+r.sty+'</h3><p>'+o.tc+" "+o.top+", "+o.bc+" "+o.bottom+", "+o.shoes+", "+o.layer+", "+o.bag+'</p><button class="btn alt" data-del="'+i+'">Remove</button></div>'}).join("");
+ el.querySelectorAll("[data-del]").forEach(function(b){b.onclick=function(){var l2=load();l2.splice(+b.dataset.del,1);try{localStorage.setItem("fm_saved",JSON.stringify(l2))}catch(x){}renderSaved()}})}
+
+/* builder */
+var BO=null,B={sty:"Streetwear",top:0,bottom:0,shoes:0,layer:0,bag:0,acc:0,tc:"Black",bc:"Grey"};
+function renderBuilder(){
+ var k=K[B.sty],f=$("#bform");
+ function sel(id,l,v){return'<label class="q" for="'+id+'">'+id[1].toUpperCase()+id.slice(2)+'</label><select id="'+id+'">'+l.map(function(x,i){return'<option value="'+i+'"'+(i==v?" selected":"")+'>'+x+'</option>'}).join("")+'</select>'}
+ f.innerHTML='<label class="q" for="bSty">Style</label><select id="bSty">'+STY.map(function(s){return'<option'+(s===B.sty?" selected":"")+'>'+s+'</option>'}).join("")+'</select>'+
+  sel("bTop",k.top,B.top)+sel("bBottom",k.bottom,B.bottom)+sel("bShoes",k.shoes,B.shoes)+sel("bLayer",k.layer,B.layer)+sel("bBag",k.bag,B.bag)+sel("bAcc",k.acc,B.acc)+
+  '<label class="q" for="bTc">Top colour</label><select id="bTc">'+Object.keys(COL).map(function(c){return'<option'+(c===B.tc?" selected":"")+'>'+c+'</option>'}).join("")+'</select>'+
+  '<label class="q" for="bBc">Bottom colour</label><select id="bBc">'+Object.keys(COL).map(function(c){return'<option'+(c===B.bc?" selected":"")+'>'+c+'</option>'}).join("")+'</select>';
+ $("#bSty").onchange=function(){B.sty=this.value;B.top=B.bottom=B.shoes=B.layer=B.bag=B.acc=0;renderBuilder()};
+ [["bTop","top"],["bBottom","bottom"],["bShoes","shoes"],["bLayer","layer"],["bBag","bag"],["bAcc","acc"]].forEach(function(p){$("#"+p[0]).onchange=function(){B[p[1]]=+this.value;outB()}});
+ $("#bTc").onchange=function(){B.tc=this.value;outB()};$("#bBc").onchange=function(){B.bc=this.value;outB()};
+ outB()}
+function outB(){var k=K[B.sty];
+ BO={top:k.top[B.top],bottom:k.bottom[B.bottom],shoes:k.shoes[B.shoes],layer:k.layer[B.layer],bag:k.bag[B.bag],acc:k.acc[B.acc],acc2:"minimal jewellery",tc:B.tc,bc:B.bc,sc:B.tc,fit:"Regular",makeup:""};
+ var sS=S.sty,sO=S.occ;S.sty=B.sty;S.occ="Casual outing";
+ var p=prompt(BO);S.sty=sS;S.occ=sO;
+ var clash=(B.tc===B.bc)?'<div class="note">Same colour top and bottom reads as a set. Add contrast through shoes or a layer if you want it to look mixed.</div>':"";
+ $("#bout").innerHTML='<h3>Your look</h3><ul class="pieces"><li>Top<span>'+B.tc+" "+BO.top+'</span></li><li>Bottom<span>'+B.bc+" "+BO.bottom+'</span></li><li>Shoes<span>'+BO.shoes+'</span></li><li>Layer<span>'+BO.layer+'</span></li><li>Bag<span>'+BO.bag+'</span></li><li>Accessory<span>'+BO.acc+'</span></li></ul>'+clash+'<div class="note">Price breakdown needs your product catalogue.</div><div class="prompt">'+p+'</div><p><button class="btn" data-save="b">Save outfit</button></p>'}
+
+/* colour match */
+function renderCM(){var el=$("#cm");el.innerHTML="";
+ Object.keys(CM).forEach(function(c){var b=document.createElement("button");b.className="chip";b.innerHTML='<span class="sw" style="background:'+COL[c]+'"></span>'+c;
+  b.onclick=function(){el.querySelectorAll(".chip").forEach(function(x){x.classList.remove("sel")});b.classList.add("sel");
+   var d=CM[c];$("#cmOut").innerHTML='<div class="card out"><h3>'+c+' works with</h3><div class="pal">'+[c].concat(d.pairs).map(function(x){return'<div style="background:'+COL[x]+'" title="'+x+'"></div>'}).join("")+'</div><p>'+[c].concat(d.pairs).join(", ")+'</p><p><b>Why it works.</b> '+d.why+'</p><p><b>Patterns.</b> Pair one pattern with solids. If you mix two patterns, vary their scale and keep them in the same colour family.</p></div>'};el.appendChild(b)});
+ $("#cmOut").innerHTML='<div class="empty">Choose a colour to see palettes.</div>'}
+
+/* routing */
+function route(){var h=(location.hash||"#home").slice(1);if(!document.getElementById(h))h="home";
+ document.querySelectorAll(".view").forEach(function(v){v.classList.toggle("on",v.id===h)});
+ document.querySelectorAll("nav a").forEach(function(a){a.classList.toggle("on",a.getAttribute("href")==="#"+h)});
+ if(h==="saved")renderSaved();if(h==="builder"&&!$("#bform").innerHTML)renderBuilder();window.scrollTo(0,0)}
+window.addEventListener("hashchange",route);
+$("#occGrid").innerHTML=OCC.map(function(o){return'<div class="card fl" data-occ="'+o+'" role="button" tabindex="0"><h3>'+o+'</h3><p style="color:var(--mut);margin:0;font-size:.85rem">Style for '+o.toLowerCase()+'</p></div>'}).join("");
+$("#occGrid").addEventListener("keydown",function(e){if(e.key==="Enter"){var c=e.target.closest("[data-occ]");if(c)c.click()}});
+chipRow($("#cOcc"),OCC,"occ");chipRow($("#cSty"),STY,"sty");chipRow($("#cBud"),BUD,"bud");chipRow($("#cCol"),Object.keys(COL),"col",true);chipRow($("#cFit"),FIT,"fit");chipRow($("#cWx"),WX,"wx");
+paint();renderCM();route();
+</script></body></html>
